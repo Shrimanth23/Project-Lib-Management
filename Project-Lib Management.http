@@ -1,0 +1,6 @@
+@Project_Lib_Management_HostAddress = http://localhost:5081
+
+GET {{Project_Lib_Management_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
