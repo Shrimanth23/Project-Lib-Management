@@ -15,7 +15,7 @@ namespace Project_Lib_Management
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
+           
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -26,7 +26,6 @@ namespace Project_Lib_Management
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
