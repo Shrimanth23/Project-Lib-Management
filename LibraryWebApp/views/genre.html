@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Books by Genre</title>
+    <title>Library Management</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
@@ -11,6 +11,10 @@
     <input type="text" id="genreInput" placeholder="Enter Genre">
     <button onclick="getBooksByGenre()">Search</button>
     <ul id="genreBooksList"></ul>
+
+    <h2>Delete Book by ID</h2>
+    <input type="text" id="bookIdInput" placeholder="Enter Book ID">
+    <button onclick="deleteBookByIdInput()">Delete</button>
 
     <script src="../js/app.js"></script>
 </body>

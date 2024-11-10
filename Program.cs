@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Project_Lib_Management.Data;
 
 namespace Project_Lib_Management
 {
@@ -8,13 +10,31 @@ namespace Project_Lib_Management
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            // Enable CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
+            // Register LibraryContext with dependency injection
+            builder.Services.AddDbContext<LibraryContext>(options =>
+                options.UseOracle(builder.Configuration.GetConnectionString("OracleDbConnection")));
+
+            // Swagger configuration
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            // Use CORS
+            app.UseCors();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -24,12 +44,8 @@ namespace Project_Lib_Management
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }

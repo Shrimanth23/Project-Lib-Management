@@ -4,25 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Statistics</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script> <!-- Load Chart.js library -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Initialize your charts here after the page has loaded
+            generateBooksByPublishedYearChart();
+            generateMemberDemographicsChart();
+            generateBooksByGenreCountChart();
+        });
+    </script>
 </head>
 <body>
-    <header>
-        <h1>Library Statistics</h1>
-    </header>
+    <h1>Library Statistics</h1>
+
+    <!-- Chart for Books by Published Year -->
     <section>
-        <h2>Books by Author</h2>
-        <canvas id="booksByAuthorChart"></canvas>
+        <h2>Books by Published Year</h2>
+        <canvas id="booksByPublishedYearChart"></canvas>
     </section>
+
+    <!-- Chart for Member Demographics -->
     <section>
-        <h2>Demographics of Members</h2>
+        <h2>Member Demographics</h2>
         <canvas id="memberDemographicsChart"></canvas>
     </section>
+
+    <!-- Chart for Number of Books by Genre -->
     <section>
-        <h2>Books by Genre</h2>
-        <canvas id="booksByGenreChart"></canvas>
+        <h2>Number of Books by Genre</h2>
+        <canvas id="booksByGenreCountChart"></canvas>
     </section>
-    <script src="../js/app.js"></script>
+
+    <script src="../js/app.js"></script> <!-- Ensure this path is correct -->
 </body>
 </html>

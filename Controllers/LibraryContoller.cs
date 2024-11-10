@@ -19,6 +19,119 @@ namespace Project_Lib_Management.Controllers
             // Retrieve connection string from appsettings.json
             _connectionString = configuration.GetConnectionString("OracleDbConnection");
         }
+        // Endpoint to get books count by published year
+        [HttpGet("books/publishedYear")]
+        public async Task<IActionResult> GetBooksByPublishedYear()
+        {
+            try
+            {
+                using (var connection = new OracleConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new OracleCommand("LIBRARY_API.get_books_by_year", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        var outputCursor = command.Parameters.Add("p_year_cursor", OracleDbType.RefCursor);
+                        outputCursor.Direction = ParameterDirection.Output;
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            var booksByYear = new List<object>();
+                            while (await reader.ReadAsync())
+                            {
+                                booksByYear.Add(new
+                                {
+                                    PublishedYear = reader.GetInt32(0),
+                                    Count = reader.GetInt32(1)
+                                });
+                            }
+                            return Ok(booksByYear);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // Endpoint to get demographics for members
+        [HttpGet("members/demographics")]
+        public async Task<IActionResult> GetMemberDemographics()
+        {
+            try
+            {
+                using (var connection = new OracleConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new OracleCommand("LIBRARY_API.get_member_demographics", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        var outputCursor = command.Parameters.Add("p_demo_cursor", OracleDbType.RefCursor);
+                        outputCursor.Direction = ParameterDirection.Output;
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            var demographics = new List<object>();
+                            while (await reader.ReadAsync())
+                            {
+                                demographics.Add(new
+                                {
+                                    Demographic = reader.GetString(0),
+                                    Count = reader.GetInt32(1)
+                                });
+                            }
+                            return Ok(demographics);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        // Endpoint to get the number of books by genre
+        [HttpGet("books/genreCount")]
+        public async Task<IActionResult> GetBooksCountByGenre()
+        {
+            try
+            {
+                using (var connection = new OracleConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+                    using (var command = new OracleCommand("LIBRARY_API.get_books_count_by_genre", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        var outputCursor = command.Parameters.Add("p_genre_cursor", OracleDbType.RefCursor);
+                        outputCursor.Direction = ParameterDirection.Output;
+
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            var booksByGenre = new List<object>();
+                            while (await reader.ReadAsync())
+                            {
+                                booksByGenre.Add(new
+                                {
+                                    Genre = reader.GetString(0),
+                                    Count = reader.GetInt32(1)
+                                });
+                            }
+                            return Ok(booksByGenre);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
         // Endpoint to get books borrowed by a specific member
         [HttpGet("members/{memberId}/books")]
@@ -60,6 +173,8 @@ namespace Project_Lib_Management.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
 
         // Endpoint to get book details by BOOK_ID
         [HttpGet("books/{bookId}")]
@@ -271,6 +386,7 @@ namespace Project_Lib_Management.Controllers
             }
         }
     }
+
     public class BookModel
     {
         public required string Title { get; set; }
