@@ -32,6 +32,7 @@ namespace Project_Lib_Management
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+           
 
             // Use CORS
             app.UseCors();
@@ -45,6 +46,7 @@ namespace Project_Lib_Management
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
+
             app.MapControllers();
             app.Run();
         }
