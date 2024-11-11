@@ -88,19 +88,15 @@
 	<section id="works" class="works">
 		<div class="container">
 			<div class="section-header">
-				<br /><br /><br />
-				<p>
-					We utilize the database to generate reports that offer you a quick overview of our collections and members. <br />
-					This information might give you helpful insights that support your research. In this section below, we will<br />
-					look into the number of books in our database by published years and genres. You will also the demographics<br />
-					of our members regarding genders.
-				</p>
+				<br /><br />
+				<h2>you can look up books by genre or book ID</h2>
 			</div><!--/.section-header-->
 		</div><!--/.container-->
 
 	</section>
 	<!--works end -->
 
+	<!--search start-->
 	<section id="search" class="works">
 		<div class="container">
 			<div class="welcome-hero-serch-box">
@@ -109,19 +105,45 @@
 						<select id="searchType">
 							<option value="genre">Genre</option>
 							<option value="bookid">Book ID</option>
-							<option value="memberid">Member ID</option>
 						</select>
 						<input type="text" id="searchInput" placeholder="Enter Genre or Book ID">
+						<button class="welcome-hero-btn" onclick="getBooks()">Search</button>
+					</div>
+
+					<button id="openPopupButton" class="welcome-hero-btn">Add New Book</button> <!--add new book popup-->
+					<div id="popup" class="popup">
+						<div class="popup-content">
+							<div class="form-group">
+								<h2>Insert New Book</h2>
+						
+								<label for="newBookTitle">Title:</label>
+								<input type="text" id="newBookTitle">
+
+								<label for="newAuthor">Author:</label>
+								<input type="text" id="newAuthor">
+							
+								<label for="newGenre">Genre:</label>
+								<input type="text" id="newGenre">
+
+								<label for="newPublishedYear">Published Year:</label>
+								<input type="number" id="newPublishedYear" min="1000" max="9999">
+
+								<label for="newRating">Rating:</label>
+								<input type="number" id="newRating" min="1" max="5">
+
+								<button onclick="insertNewBook()">Insert Book</button>
+								<div id="insert-response"></div>
+								<button onclick="closePopup()">Close</button>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="welcome-hero-serch">
-					<button class="welcome-hero-btn" onclick="getBooks()">Search
-					</button>
-				</div>
 			</div>
+			<br /><div id="genreBooksList"></div>
+			<div class="whitespace"></div>
 		</div>
 	</section>
-
+	<!--search end-->
 
 	<!--footer start-->
 	<footer id="footer" class="footer">
@@ -178,7 +200,7 @@
 	<!--Custom JS-->
 	<script src="assets/js/custom.js"></script>
 
-	<!--chart js-->
+	<!--chart and search js-->
 	<script src="assets/js/app.js"></script>
 
 </body>

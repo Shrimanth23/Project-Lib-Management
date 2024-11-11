@@ -91,6 +91,9 @@ html,body{height: 100%;}
 .fix{position: relative;clear: both;}
 /*=============Style css=========*/
 
+.whitespace {
+    height: 250px;
+}
 
 /*-------------------------------------
         2. Header-top
@@ -234,7 +237,10 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
     background:rgba(65,73,89,.65);
     z-index: -1;
 }
-.welcome-hero-txt { padding-top: 155px;}
+.welcome-hero-txt { 
+    padding-top: 155px;
+    text-align: center;
+}
 
 .welcome-hero-txt h2 {
     font-size: 80px;
@@ -260,16 +266,61 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
 }
 
 .welcome-hero-serch-box {
-    margin-top: 78px;
+    margin-top: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+#genreBooksList {
+    margin-top: 40px;
+    text-align: center; 
+    margin: 0 auto;
+}
+
+#genreBooksList table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%; 
+}
+
+#genreBooksList table td {
+    border: 1px solid #ccc;
+    padding: 10px; 
+}
+
+#genreBooksList table th {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f2f2f2;
+}
+
+#genreBooksList table td button {
+    display:  flex;
+    justify-content:  center;
+    align-items:  center;
+    font-size:  14px;
+    color:  #fff;
+    width:  70px;
+    height:  35px;
+    background:  #ff545a;
+    text-transform:  capitalize;
+    margin-left:  30px;
+    border-radius: 3px;
+    -webkit-transition: 0.3s linear; 
+    -moz-transition: 0.3s linear; 
+    -ms-transition: 0.3s linear; 
+    -o-transition: 0.3s linear; 
+    transition: 0.3s linear;
+}
+
 .welcome-hero-form {
     display: flex;
     background: #fff;
     height: 70px;
     border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 85%;
 }
 .single-welcome-hero-form {
@@ -320,11 +371,6 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
 }
 .welcome-hero-btn:hover{/*background: #fd4043;*/background: #f43032;}
 
-.welcome-hero-btn svg {
-    width:  14px;
-    height:  auto;
-    margin-left:  12px;
-}
 
 /*-------------------------------------
         5. List-topuics
@@ -619,5 +665,38 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
     text-align: center;
     height: 800px;
     z-index: 1;
+}
+
+/*===============================
+    Popup
+===============================*/
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.popup-content {
+    display: grid;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+    height: 400px;
+    gap: 20px;
+}
+
+.popup-content .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    padding: 25px;
+    outline: 2px solid;
 }
 /*========================Thank you=================

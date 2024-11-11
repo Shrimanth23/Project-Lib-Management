@@ -14,12 +14,10 @@ async function getBooks() {
     try {
         let response;
         if (searchType === "genre") {
-            // Search by Genre
             response = await fetch(`${apiUrl}/books/genre/${searchValue}`);
         } else if (searchType === "bookid") {
-            // Search by Book ID
-            response = await fetch(`${apiUrl}/books/bookId/${searchValue}`);
-        } 
+            response = await fetch(`${apiUrl}/books/${searchValue}`);
+        }
 
         if (!response.ok) {
             throw new Error(`Failed to fetch books: ${response.status}`);
@@ -30,6 +28,11 @@ async function getBooks() {
 
         const list = document.getElementById("genreBooksList");
         list.innerHTML = ""; // Clear existing results
+
+        if (books.length === 0) {
+            list.innerHTML = "<p>No books found matching your search.</p>";
+            return;
+        }
 
         // Create a table element
         const table = document.createElement("table");
@@ -51,13 +54,13 @@ async function getBooks() {
         books.forEach(book => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${book.bookId || searchValue || "NA"}
+                <td>${book.bookId || searchValue || "NA"}</td>
                 <td>${book.title || "NA"}</td>
                 <td>${book.author || "NA"}</td>
                 <td>${book.genre || searchValue || "NA"}</td>
                 <td>${book.publishedYear || "NA"}</td>
                 <td>${book.rating || "NA"}</td>
-                <td><button onclick="deleteBook(${book.bookId})">Delete</button></td>
+                <td><button onclick="deleteBook(${book.bookId || 'null'})">Delete</button></td>
             `;
             table.appendChild(row);
         });
@@ -69,6 +72,7 @@ async function getBooks() {
         console.error("Error fetching books by genre:", error);
     }
 }
+
 
 // Function for the DELETE button to delete a book
 async function deleteBook(bookId) {
@@ -313,4 +317,15 @@ async function generateBooksByGenreCountChart() {
 // Helper function to generate random color
 function getRandomColor() {
     return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
+// Popup
+const openPopupButton = document.getElementById('openPopupButton');
+const popup = document.getElementById('popup');
+
+openPopupButton.addEventListener('click', () => {
+    popup.style.display = 'flex';
+});
+function closePopup() {
+    popup.style.display = 'none';
 }
