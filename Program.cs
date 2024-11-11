@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Project_Lib_Management.Data;
+using System.IO;
 
 namespace Project_Lib_Management
 {
@@ -43,9 +44,11 @@ namespace Project_Lib_Management
                 DefaultFileNames = new List<string> { "index.html" }
             });
 
+            // Use a relative path for the static files
+            var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "LibraryWebApp");
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(@"C:\Users\shrim\source\repos\Project-Lib Management\LibraryWebApp"),
+                FileProvider = new PhysicalFileProvider(staticFilesPath),
                 RequestPath = ""
             });
 
