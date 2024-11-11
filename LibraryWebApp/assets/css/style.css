@@ -372,6 +372,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
 .works{padding: 0 0 90px;}
 .works-content {margin-top: 73px;}
 
+
 .single-how-works{
     text-align: center;
     padding:50px 42px;
@@ -394,6 +395,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
     background: #eef2f6;
     border-radius: 50%;
 }
+
 .single-how-works h2 a {
     font-size:  18px;
     margin: 35px 0 20px;
@@ -593,4 +595,24 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
     margin-top: 20px;
 }
 
+/*===============================
+    Profiles
+===============================*/
+.profile-picture-long {
+    position:relative;
+    background: url('../images/Long_Nguyen_11 headshot.jpg')no-repeat;
+    bacground-position: center;
+    background-size:contain;
+    z-index: 1;
+}
+
+.welcome-hero {
+    position: relative;
+    background: url(../images/welcome-hero/banner.jpg)no-repeat;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+    height: 800px;
+    z-index: 1;
+}
 /*========================Thank you=================
