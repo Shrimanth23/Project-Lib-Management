@@ -1,15 +1,31 @@
 // Set the base API URL
 const apiUrl = 'https://localhost:7214/api/Library';
 
-// Function to fetch books by genre
-async function getBooksByGenre() {
-    const genre = document.getElementById("genreInput").value;
+// Function to fetch books by id or genre
+async function getBooks() {
+    const searchType = document.getElementById("searchType").value;
+    const searchValue = document.getElementById("searchInput").value;
+
+    if (!searchValue) {
+        alert("Please enter a genre or book ID.");
+        return;
+    }
+
     try {
-        const response = await fetch(`${apiUrl}/books/genre/${genre}`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch books by genre: ${response.status}`);
+        let response;
+        if (searchType === "genre") {
+            // Search by Genre
+            response = await fetch(`${apiUrl}/books/genre/${searchValue}`);
+        } else if (searchType === "id") {
+            // Search by Book ID
+            response = await fetch(`${apiUrl}/books/${searchValue}`);
         }
-        const books = await response.json();
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch books: ${response.status}`);
+        }
+
+        const books = searchType === "genre" ? await response.json() : [await response.json()];
         console.log(books); // Log the response to verify structure
 
         const list = document.getElementById("genreBooksList");
@@ -24,6 +40,7 @@ async function getBooksByGenre() {
             <th>ID</th>
             <th>Title</th>
             <th>Author</th>
+            <th>Genre</th>
             <th>Published Year</th>
             <th>Rating</th>
             <th>Actions</th>
@@ -34,9 +51,10 @@ async function getBooksByGenre() {
         books.forEach(book => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${book.bookId || "NA"}
+                <td>${book.bookId || searchValue || "NA"}
                 <td>${book.title || "NA"}</td>
                 <td>${book.author || "NA"}</td>
+                <td>${book.genre || searchValue || "NA"}</td>
                 <td>${book.publishedYear || "NA"}</td>
                 <td>${book.rating || "NA"}</td>
                 <td><button onclick="deleteBook(${book.bookId})">Delete</button></td>
