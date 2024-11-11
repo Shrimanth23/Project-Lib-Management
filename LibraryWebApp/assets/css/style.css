@@ -92,7 +92,7 @@ html,body{height: 100%;}
 /*=============Style css=========*/
 
 .whitespace {
-    height: 250px;
+    height: 350px;
 }
 
 /*-------------------------------------
@@ -305,6 +305,7 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
     background:  #ff545a;
     text-transform:  capitalize;
     margin-left:  30px;
+    margin-bottom: 5px;
     border-radius: 3px;
     -webkit-transition: 0.3s linear; 
     -moz-transition: 0.3s linear; 

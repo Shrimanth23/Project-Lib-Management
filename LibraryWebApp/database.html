@@ -95,7 +95,6 @@
 
 	</section>
 	<!--works end -->
-
 	<!--search start-->
 	<section id="search" class="works">
 		<div class="container">
@@ -115,13 +114,13 @@
 						<div class="popup-content">
 							<div class="form-group">
 								<h2>Insert New Book</h2>
-						
+
 								<label for="newBookTitle">Title:</label>
 								<input type="text" id="newBookTitle">
 
 								<label for="newAuthor">Author:</label>
 								<input type="text" id="newAuthor">
-							
+
 								<label for="newGenre">Genre:</label>
 								<input type="text" id="newGenre">
 
@@ -139,11 +138,39 @@
 					</div>
 				</div>
 			</div>
-			<br /><div id="genreBooksList"></div>
-			<div class="whitespace"></div>
+			<br /><div id="genreBooksList"></div><!--output table-->
+			<!-- update book popup -->
+			<div id="updatePopup" class="popup">
+				<div class="popup-content">
+					<div class="form-group">
+						<h2>Update Book Details</h2>
+
+						<label for="updateBookTitle">Title:</label>
+						<input type="text" id="updateBookTitle">
+
+						<label for="updateAuthor">Author:</label>
+						<input type="text" id="updateAuthor">
+
+						<label for="updateGenre">Genre:</label>
+						<input type="text" id="updateGenre">
+
+						<label for="updatePublishedYear">Published Year:</label>
+						<input type="number" id="updatePublishedYear" min="1000" max="9999">
+
+						<label for="updateRating">Rating:</label>
+						<input type="number" id="updateRating" min="1" max="5">
+
+						<button onclick="updateBook()">Update Book</button>
+						<div id="update-response"></div>
+						<button onclick="closeUpdatePopup()">Close</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 	<!--search end-->
+
+	<div class="whitespace"></div>
 
 	<!--footer start-->
 	<footer id="footer" class="footer">

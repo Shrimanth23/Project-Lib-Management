@@ -60,7 +60,10 @@ async function getBooks() {
                 <td>${book.genre || searchValue || "NA"}</td>
                 <td>${book.publishedYear || "NA"}</td>
                 <td>${book.rating || "NA"}</td>
-                <td><button onclick="deleteBook(${book.bookId || 'null'})">Delete</button></td>
+                <td>
+                    <button onclick="deleteBook(${book.bookId || searchValue})">Delete</button>
+                    <button onclick="updateBookDetails(${book.bookId || searchValue})">Update</button>
+                </td>
             `;
             table.appendChild(row);
         });
@@ -83,7 +86,7 @@ async function deleteBook(bookId) {
         if (response.ok) {
             alert(`Book with ID ${bookId} deleted successfully.`);
             // Refresh the list of books by genre
-            getBooksByGenre();
+            getBooks();
         } else {
             throw new Error(`Failed to delete book: ${response.status}`);
         }
@@ -93,82 +96,66 @@ async function deleteBook(bookId) {
     }
 }
 
-// Function to fetch and display books borrowed by a member
-async function filterByMember() {
-    const memberId = document.getElementById("memberId").value;
-    if (!memberId) {
-        alert("Please enter a Member ID.");
-        return;
-    }
+function updateBookDetails(bookId) {
+    window.currentBookId = bookId;
 
-    try {
-        const response = await fetch(`${apiUrl}/members/${memberId}/books`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch books for member ID ${memberId}: ${response.status}`);
-        }
-        const books = await response.json();
-        const resultsDiv = document.getElementById("member-results");
-        resultsDiv.innerHTML = ""; // Clear previous results
-
-        if (books.length === 0) {
-            resultsDiv.innerHTML = "<p>No books borrowed by this member.</p>";
-            return;
-        }
-
-        const bookList = document.createElement("ul");
-        books.forEach(book => {
-            const listItem = document.createElement("li");
-            listItem.textContent = `${book.title || "Unknown Title"} by ${book.author || "Unknown Author"}`;
-            bookList.appendChild(listItem);
-        });
-        resultsDiv.appendChild(bookList);
-    } catch (error) {
-        console.error("Error fetching books by member:", error);
-        alert("Error: Could not fetch books for this member. Please try again.");
-    }
+    // Show the update popup
+    document.getElementById("updatePopup").style.display = "flex";
+}
+function closeUpdatePopup() {
+    document.getElementById("updatePopup").style.display = "none";
 }
 
-// Function to update book details
-async function updateBookDetails() {
-    const bookId = document.getElementById("bookId").value;
-    const title = document.getElementById("bookTitle").value;
-    const author = document.getElementById("author").value;
-    const genre = document.getElementById("genre").value;
-    const publishedYear = document.getElementById("publishedYear").value;
-    const rating = document.getElementById("rating").value;
 
-    if (!bookId) {
-        alert("Please enter the Book ID.");
-        return;
-    }
-
-    const bookData = {
-        title: title || null,
-        author: author || null,
-        genre: genre || null,
-        publishedYear: parseInt(publishedYear) || null,
-        rating: parseInt(rating) || null
+// Function to handle updating the book details
+async function updateBook() {
+    const bookId = window.currentBookId;
+    const updatedBook = {
+        title: document.getElementById("updateBookTitle").value,
+        author: document.getElementById("updateAuthor").value,
+        genre: document.getElementById("updateGenre").value,
+        publishedYear: document.getElementById("updatePublishedYear").value,
+        rating: document.getElementById("updateRating").value
     };
 
     try {
         const response = await fetch(`${apiUrl}/books/${bookId}`, {
-            method: 'PUT',
+            method: 'PUT', // Assuming you are using PUT to update
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(bookData)
+            body: JSON.stringify(updatedBook)
         });
 
-        if (response.ok) {
-            document.getElementById("update-response").textContent = `Book with ID ${bookId} updated successfully.`;
+        // Log the response to check if there is content
+        console.log('Response Status:', response.status);
+        const responseBody = await response.text(); // Get raw text response
+
+        // Check if the response is not empty
+        if (responseBody) {
+            try {
+                const parsedResponse = JSON.parse(responseBody); // Parse the JSON response
+                console.log('Response Body:', parsedResponse);
+            } catch (e) {
+                console.error('Failed to parse response:', e);
+            }
         } else {
+            console.error('Empty response body');
+        }
+
+        if (!response.ok) {
             throw new Error(`Failed to update book: ${response.status}`);
         }
+
+        alert('Book updated successfully!');
+        closeUpdatePopup();
+        getBooks(); // Refresh the book list
     } catch (error) {
-        console.error("Error updating book details:", error);
-        document.getElementById("update-response").textContent = "Error: Could not update book details. Please try again.";
+        console.error("Error updating book:", error);
+        alert('Failed to update the book.');
     }
 }
+
 
 // Function to add new bbook
 async function insertNewBook() {
