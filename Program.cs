@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Project_Lib_Management.Data;
 
 namespace Project_Lib_Management
@@ -32,10 +33,21 @@ namespace Project_Lib_Management
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-           
 
             // Use CORS
             app.UseCors();
+
+            // Configure middleware to serve default files (index.html) and static files
+            app.UseDefaultFiles(new DefaultFilesOptions
+            {
+                DefaultFileNames = new List<string> { "index.html" }
+            });
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(@"C:\Users\shrim\source\repos\Project-Lib Management\LibraryWebApp"),
+                RequestPath = ""
+            });
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -47,7 +59,10 @@ namespace Project_Lib_Management
             app.UseHttpsRedirection();
             app.UseAuthorization();
 
+            // Map controllers for API endpoints
             app.MapControllers();
+
+            // Run the app
             app.Run();
         }
     }
