@@ -259,7 +259,12 @@ nav.navbar.bootsnav .navbar-toggle i{color: #ff545a;}
     margin-top: 25px;
 }
 
-.welcome-hero-serch-box{margin-top: 78px;display: flex;}
+.welcome-hero-serch-box {
+    margin-top: 78px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .welcome-hero-form {
     display: flex;
     background: #fff;

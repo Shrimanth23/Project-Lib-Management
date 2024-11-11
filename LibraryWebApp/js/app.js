@@ -13,20 +13,35 @@ async function getBooks() {
 
     try {
         let response;
-        if (searchType === "genre") {
+        let books;
+
+        if (searchType === "genre")
+        {
             // Search by Genre
             response = await fetch(`${apiUrl}/books/genre/${searchValue}`);
-        } else if (searchType === "id") {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch books: ${response.status}`);
+            }
+            books = await response.json();
+        }
+        else if (searchType === "bookid")
+        {
             // Search by Book ID
             response = await fetch(`${apiUrl}/books/${searchValue}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch books: ${response.status}`);
+            }
+            const singleBook = await response.json();
+            books = [singleBook];
         }
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch books: ${response.status}`);
+        else if (searchType === "memberid") {
+            // Search by Member ID
+            response = await fetch(`${apiUrl}/members/${searchValue}/books`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch books: ${response.status}`);
+            }
+            books = await response.json();
         }
-
-        const books = searchType === "genre" ? await response.json() : [await response.json()];
-        console.log(books); // Log the response to verify structure
 
         const list = document.getElementById("genreBooksList");
         list.innerHTML = ""; // Clear existing results
